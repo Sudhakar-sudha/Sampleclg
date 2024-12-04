@@ -5,7 +5,6 @@ export default function Home() {
   return (
     <View style={styles.container}>
         <Text>Sudhakar</Text>
-    <Text>Thangam Sudar</Text>
     </View>
   );
 }
