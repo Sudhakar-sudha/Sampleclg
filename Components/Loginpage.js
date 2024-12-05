@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Loginpage = () => {
+const Loginpage = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,7 +17,8 @@ const Loginpage = () => {
 
     try {
       // Save the token to AsyncStorage
-      await AsyncStorage.setItem('auth_token', fakeToken);
+      await AsyncStorage.setItem('userToken', fakeToken); // Consistent with App.js
+      setIsLoggedIn(true); // Update the logged-in state in App.js
       Alert.alert('Success', 'Logged in successfully');
     } catch (error) {
       Alert.alert('Error', 'Failed to save token');
@@ -26,7 +27,7 @@ const Loginpage = () => {
 
   const checkAuthToken = async () => {
     try {
-      const token = await AsyncStorage.getItem('auth_token');
+      const token = await AsyncStorage.getItem('userToken');
       if (token !== null) {
         Alert.alert('Token Found', `Stored Token: ${token}`);
       } else {
@@ -60,7 +61,6 @@ const Loginpage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     justifyContent: 'center',
     padding: 16,
   },
