@@ -1,76 +1,70 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from './Components/Home';
+import Loginpage from './Components/Loginpage';
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const App = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-  const handleLogin = async () => {
-    if (username === '' || password === '') {
-      Alert.alert('Error', 'Please enter both username and password');
-      return;
-    }
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen
+        name="Home"
+        component={Home}
+        options={{
+          drawerLabel: 'Home',
+          headerTitle: 'My Home',
+          drawerIcon: ({ size, color }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
 
-    // Simulate a login request
-    const fakeToken = 'your_generated_token'; // Replace with the actual token from your API
+function AuthNavigator({ setIsLoggedIn }) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Loginpage"
+        component={Loginpage}
+        options={{
+          headerShown: false, // Hide header on the login screen
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
-    try {
-      // Save the token to AsyncStorage
-      await AsyncStorage.setItem('auth_token', fakeToken);
-      Alert.alert('Success', 'Logged in successfully');
-    } catch (error) {
-      Alert.alert('Error', 'Failed to save token');
-    }
-  };
+export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const checkAuthToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem('auth_token');
-      if (token !== null) {
-        Alert.alert('Token Found', `Stored Token: ${token}`);
+  useEffect(() => {
+    // Check if the user is logged in by checking stored token
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem('userToken');
+      if (token) {
+        setIsLoggedIn(true);
       } else {
-        Alert.alert('No Token', 'No authentication token found');
+        setIsLoggedIn(false);
       }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to retrieve token');
-    }
-  };
+    };
+    checkLoginStatus();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Check Token" onPress={checkAuthToken} />
-    </View>
+    <NavigationContainer>
+      {isLoggedIn ? (
+        <DrawerNavigator /> // Show the drawer if logged in
+      ) : (
+        <AuthNavigator setIsLoggedIn={setIsLoggedIn} /> // Show the login screen if not logged in
+      )}
+    </NavigationContainer>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingLeft: 8,
-  },
-});
-
-export default App;
+}
