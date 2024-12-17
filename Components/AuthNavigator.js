@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Loginpage from './Loginpage';
@@ -9,11 +11,10 @@ export default function AuthNavigator({ setIsLoggedIn }) {
     <Stack.Navigator>
       <Stack.Screen
         name="Loginpage"
-        component={Loginpage}
-        options={{
-          headerShown: false, // Hides the header for the login screen
-        }}
-      />
+        options={{ headerShown: false }}
+      >
+        {() => <Loginpage setIsLoggedIn={setIsLoggedIn} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }

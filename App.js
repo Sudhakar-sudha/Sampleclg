@@ -1,100 +1,67 @@
+// import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper'; // Ensure DefaultTheme is imported
 // import React, { useState, useEffect } from 'react';
 // import { NavigationContainer } from '@react-navigation/native';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import Home from './Components/Home';
-// import Loginpage from './Components/Loginpage';
-// import { Ionicons } from '@expo/vector-icons';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AuthNavigator from './Components/AuthNavigator';
+// import DrawerNavigator from './Components/DrawerNavigator';
+// import { View, Text } from 'react-native';
 
-// const Drawer = createDrawerNavigator();
-// const Stack = createStackNavigator();
-
-// function DrawerNavigator() {
-//   return (
-//     <Drawer.Navigator>
-//       <Drawer.Screen
-//         name="Home"
-//         component={Home}
-//         options={{
-//           drawerLabel: 'Home',
-//           headerTitle: 'My Home',
-//           drawerIcon: ({ size, color }) => (
-//             <Ionicons name="home-outline" size={size} color={color} />
-//           ),
-//         }}
-//       />
-//     </Drawer.Navigator>
-//   );
-// }
-
-// function AuthNavigator({ setIsLoggedIn }) {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen
-//         name="Loginpage"
-//         component={Loginpage}
-//         options={{
-//           headerShown: false, // Hide header on the login screen
-//         }}
-//       />
-//     </Stack.Navigator>
-//   );
-// }
+// const theme = {
+//   ...DefaultTheme,
+//   colors: {
+//     ...DefaultTheme.colors,
+//     primary: '#2196f3', // Customize your primary color
+//     accent: '#ff5722',  // Customize your accent color
+//   },
+// };
 
 // export default function App() {
 //   const [isLoggedIn, setIsLoggedIn] = useState(false);
+//   const [isLoading, setIsLoading] = useState(true);
 
 //   useEffect(() => {
-//     // Check if the user is logged in by checking stored token
 //     const checkLoginStatus = async () => {
 //       const token = await AsyncStorage.getItem('userToken');
-//       if (token) {
-//         setIsLoggedIn(true);
-//       } else {
-//         setIsLoggedIn(false);
-//       }
+//       setIsLoggedIn(!!token); // Set isLoggedIn to true if token exists
+//       setIsLoading(false);
 //     };
+
 //     checkLoginStatus();
 //   }, []);
 
+//   if (isLoading) {
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>Loading...</Text>
+//       </View>
+//     );
+//   }
+
 //   return (
-//     <NavigationContainer>
-//       {isLoggedIn ? (
-//         <DrawerNavigator /> // Show the drawer if logged in
-//       ) : (
-//         <AuthNavigator setIsLoggedIn={setIsLoggedIn} /> // Show the login screen if not logged in
-//       )}
-//     </NavigationContainer>
+//     <PaperProvider theme={theme}>
+//       <NavigationContainer>
+//         {isLoggedIn ? (
+//           <DrawerNavigator setIsLoggedIn={setIsLoggedIn} />
+//         ) : (
+//           <AuthNavigator setIsLoggedIn={setIsLoggedIn} />
+//         )}
+//       </NavigationContainer>
+//     </PaperProvider>
 //   );
 // }
 
 
 
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import DrawerNavigator from './Components/DrawerNavigator';
-import AuthNavigator from './Components/AuthNavigator';
 
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+import { View } from "react-native";
+import ImageUploadApp from "./Components/ImageUploadForm ";
 
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      const token = await AsyncStorage.getItem('userToken');
-      setIsLoggedIn(!!token); // Set true if token exists, otherwise false
-    };
-    checkLoginStatus();
-  }, []);
-
-  return (
-    <NavigationContainer>
-      {isLoggedIn ? (
-        <DrawerNavigator /> // Show drawer navigation if logged in
-      ) : (
-        <AuthNavigator setIsLoggedIn={setIsLoggedIn} /> // Show login screen otherwise
-      )}
-    </NavigationContainer>
-  );
+const App=()=>{
+  return(
+    <View>
+      <ImageUploadApp/>
+    </View>
+  )
 }
+
+export default App;

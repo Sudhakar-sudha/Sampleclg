@@ -24,6 +24,25 @@ const products = [
     delivery: '2 days',
     stars: '⭐⭐⭐⭐',
     image: require('../assets/shoe2.jpg'),
+  }, {
+    id: '3',
+    name: 'JssCrackers',
+    description: 'It is a fireworks company',
+    price: '$300',
+    offer: '50%',
+    delivery: '1 day',
+    stars: '⭐⭐⭐⭐⭐',
+    image: require('../assets/shoe1.jpg'),
+  },
+  {
+    id: '4',
+    name: 'JssCrackers',
+    description: 'Quality fireworks for celebrations',
+    price: '$400',
+    offer: '40%',
+    delivery: '2 days',
+    stars: '⭐⭐⭐⭐',
+    image: require('../assets/shoe2.jpg'),
   },
   // Add more product objects as needed
 ];
@@ -49,31 +68,42 @@ const ProductCardItem = ({ product }) => (
 
 const Products = () => {
   return (
-    <FlatList
-      data={products}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ProductCardItem product={item} />}
-      contentContainerStyle={styles.listContainer}
-    />
+<FlatList
+  data={products}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => <ProductCardItem product={item} />}
+  contentContainerStyle={styles.listContainer}
+  numColumns={2} // Display two items per row
+  columnWrapperStyle={styles.rowContainer} // Style for rows
+  showsVerticalScrollIndicator={false} // Optional: Hides vertical scrollbar
+/>
+
+
   );
 };
-
 const styles = StyleSheet.create({
   listContainer: {
     paddingVertical: 20,
     paddingHorizontal: 10,
+  },
+  rowContainer: {
+    justifyContent: 'space-between', // Add spacing between items
+    marginBottom: 15, // Space between rows
   },
   card: {
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 10,
     elevation: 3,
+    width: '48%', // Adjust width to fit two cards with spacing
+    overflow: 'hidden', // Prevent content spill
   },
   image: {
     width: '100%',
     height: 150,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    resizeMode: 'cover',
   },
   details: {
     padding: 10,
@@ -85,19 +115,23 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: '#555',
+    marginBottom: 5,
   },
   price: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#e91e63',
+    marginBottom: 5,
   },
   offer: {
     fontSize: 14,
     color: '#4caf50',
+    marginBottom: 5,
   },
   delivery: {
     fontSize: 14,
     color: '#757575',
+    marginBottom: 5,
   },
   stars: {
     fontSize: 14,
