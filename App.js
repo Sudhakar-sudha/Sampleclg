@@ -49,19 +49,3 @@ export default function App() {
     </PaperProvider>
   );
 }
-
-
-
-
-// import { View } from "react-native";
-// import ImageUploadApp from "./Components/ImageUploadForm ";
-
-// const App=()=>{
-//   return(
-//     <View>
-//       <ImageUploadApp/>
-//     </View>
-//   )
-// }
-
-// export default App;

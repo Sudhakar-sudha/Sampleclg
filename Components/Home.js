@@ -1,6 +1,5 @@
 import React from 'react';
-import  { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert ,Text} from 'react-native';
+import { View, StyleSheet ,Text} from 'react-native';
 export default function Home() {
 
 
